@@ -3,48 +3,8 @@
 import Link from "next/link";
 import { Moon, Sparkles, Brain, TrendingUp, ArrowRight } from "lucide-react";
 import { Navbar } from "@/components/custom/navbar";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 
 export default function Home() {
-  const router = useRouter();
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    // Verificar se usuário está autenticado (apenas se Supabase estiver configurado)
-    const checkAuth = async () => {
-      try {
-        // Importação dinâmica do Supabase para evitar erros se não estiver configurado
-        const { supabase } = await import("@/lib/supabase");
-        
-        if (supabase) {
-          const { data: { session } } = await supabase.auth.getSession();
-          if (session) {
-            router.push('/dashboard');
-          } else {
-            setLoading(false);
-          }
-        } else {
-          setLoading(false);
-        }
-      } catch (error) {
-        // Se houver erro (ex: Supabase não configurado), apenas mostra a página
-        console.log('Supabase não configurado ainda');
-        setLoading(false);
-      }
-    };
-
-    checkAuth();
-  }, [router]);
-
-  if (loading) {
-    return (
-      <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-indigo-950 via-purple-950 to-slate-900">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-400"></div>
-      </div>
-    );
-  }
-
   return (
     <>
       <Navbar />
